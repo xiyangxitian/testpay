@@ -36,16 +36,13 @@ public class PayToolUtil {
         return tenpaySign.equals(mysign);  
     }  
   
-    /** 
-     * @author 
-     * @date 2016-4-22 
-     * @Description：sign签名 
-     * @param characterEncoding 
-     *            编码格式 
-     * @param parameters 
-     *            请求参数 
-     * @return 
-     */  
+    /**
+     *
+     * @param characterEncoding 编码格式
+     * @param packageParams 请求参数
+     * @param API_KEY
+     * @return
+     */
     public static String createSign(String characterEncoding, SortedMap<Object, Object> packageParams, String API_KEY) {  
         StringBuffer sb = new StringBuffer();  
         Set es = packageParams.entrySet();  

@@ -11,6 +11,9 @@ import com.demodashi.pay.util.PayToolUtil;
 import com.demodashi.pay.util.PayConfigUtil;
 import com.demodashi.pay.util.XMLUtil4jdom;
 
+/**
+ * 1、首先是接入微信接口，获取微信支付二维码。
+ */
 @Named("userService")
 public class UserServiceImpl implements UserService {
 	
@@ -45,7 +48,7 @@ public class UserServiceImpl implements UserService {
         packageParams.put("total_fee", "10"); //价格的单位为分  
         packageParams.put("spbill_create_ip", spbill_create_ip);  
         packageParams.put("notify_url", notify_url);  
-        packageParams.put("trade_type", trade_type);  
+        packageParams.put("trade_type", trade_type);//支付模式    NATIVE为扫码支付
   
         String sign = PayToolUtil.createSign("UTF-8", packageParams,key);  
         packageParams.put("sign", sign);
