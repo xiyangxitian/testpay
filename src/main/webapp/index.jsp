@@ -8,7 +8,7 @@
 </head>
 <body>
 <form id="pay_form" method="post" >
-<h1>可乐特价：0.1元/罐 <input id="pay_submit" name="but" type="button" value="微信支付"/></h1>
+<h1>可乐特价：0.01元/罐 <input id="pay_submit" name="but" type="button" value="微信支付"/></h1>
 </form>
 </body>
 <script>

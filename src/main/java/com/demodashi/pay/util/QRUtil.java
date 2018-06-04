@@ -1,17 +1,16 @@
 package com.demodashi.pay.util;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.common.BitMatrix;
+
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Hashtable;
-
-import javax.imageio.ImageIO;
-
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.common.BitMatrix;
 
 /**
  * 二维码生产工具类
@@ -68,4 +67,5 @@ public class QRUtil {
        File outputFile = new File("d:"+File.separator+"new.gif"); 
        QRUtil.writeToFile(bitMatrix, format, outputFile); 
    }
+
 }

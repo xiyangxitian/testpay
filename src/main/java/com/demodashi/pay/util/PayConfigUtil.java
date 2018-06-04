@@ -8,11 +8,17 @@ public class PayConfigUtil {
 	//现在是自己设置了一个本机电脑项目到外网访问的地址
 	//这地址可能不能回调，要用服务器上的地址就保证可以了。
 	//企业向个人账号付款的URL
-	public final static String NOTIFY_URL = "http://holer.org:65530/notifypay"; //微信支付回调接口，就是微信那边收到（改为自己实际的）
-	public final static String CREATE_IP = "183.240.212.219";//发起支付ip（改为自己实际的）
+	//微信支付回调接口，就是微信那边收到（改为自己实际的）  现在这个地址并不能直接打开
+	public final static String NOTIFY_URL = "http://jk.powerrich.com.cn/platform/WxpNotify";
+
+	public final static String CREATE_IP = "183.240.212.232";//发起支付ip（改为自己实际的）
+
 
 	//有关url
+	//统一下单
 	public final static String UFDODER_URL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+
+
 	public final static String APP_SECRET = "";
 	public final static String SEND_EED_PACK_URL = "https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers";
 

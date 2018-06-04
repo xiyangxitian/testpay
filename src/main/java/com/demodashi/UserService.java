@@ -2,7 +2,7 @@ package com.demodashi;
 
 /**
  * 
- * @author xgchen
+ * @author ly
  *
  */
 public interface UserService {
