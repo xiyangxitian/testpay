@@ -18,10 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -37,7 +34,7 @@ public class UserController extends BaseController {
     UserService userApplication;
 
     @ResponseBody
-    @RequestMapping("/qrcode.do")
+    @RequestMapping("/qrcode")
     public void qrcode(HttpServletRequest request, HttpServletResponse response,
                        ModelMap modelMap) {
         try {
@@ -66,12 +63,17 @@ public class UserController extends BaseController {
     }
 
     @ResponseBody
-    @RequestMapping("/hadPay.do")
+    @RequestMapping("/hadPay")
     public Map<String, Object> hadPay(UserVO user, HttpServletRequest request, HttpServletResponse response,
                                       ModelMap modelMap) {
         try {
             //简单的业务逻辑：在微信的回调接口里面，已经定义了，回调返回成功的话，那么 _PAY_RESULT 不为空
             if (request.getSession().getAttribute("_PAY_RESULT") != null) {
+                return success("支付成功！");
+            }
+            String pay_result = request.getAttribute("PAY_RESULT").toString();
+            System.out.println(pay_result);
+            if(pay_result.equals("OK")){
                 return success("支付成功！");
             }
             return error("没成功");
@@ -120,10 +122,11 @@ public class UserController extends BaseController {
             packageParams.put(parameter, v);
         }
 
-        // 账号信息  
-        String key = PayConfigUtil.API_KEY; //key  
-
-        //判断签名是否正确  
+        // 微信支付的API密钥
+        String key = PayConfigUtil.API_KEY; //key
+        //微信支付返回来的参数
+        System.out.println(packageParams);
+        //判断签名是否正确
         if (PayToolUtil.isTenpaySign("UTF-8", packageParams, key)) {
             //------------------------------  
             //处理业务开始  
@@ -131,18 +134,25 @@ public class UserController extends BaseController {
             String resXml = "";
             if ("SUCCESS".equals((String) packageParams.get("result_code"))) {
                 // 这里是支付成功  
-                //////////执行自己的业务逻辑////////////////  
+                //////////执行自己的业务逻辑////////////////
+                String app_id = (String)packageParams.get("appid");
                 String mch_id = (String) packageParams.get("mch_id");
                 String openid = (String) packageParams.get("openid");
-                String is_subscribe = (String) packageParams.get("is_subscribe");
-                String out_trade_no = (String) packageParams.get("out_trade_no");
+                String is_subscribe = (String) packageParams.get("is_subscribe");//是否关注公众号
+                String out_trade_no = (String) packageParams.get("out_trade_no");//商户订单号
 
+                //付款金额【以分为单位】
                 String total_fee = (String) packageParams.get("total_fee");
+                //附加参数【商标申请_0bda32824db44d6f9611f1047829fa3b_15460】--【业务类型_会员ID_订单号】
+                String attach = (String)packageParams.get("attach");
 
+                //微信生成的交易订单号
+                String transaction_id = (String)packageParams.get("transaction_id");//微信支付订单号
                 //////////执行自己的业务逻辑//////////////// 
                 //暂时使用最简单的业务逻辑来处理：只是将业务处理结果保存到session中
                 //（根据自己的实际业务逻辑来调整，很多时候，我们会操作业务表，将返回成功的状态保留下来）
                 request.getSession().setAttribute("_PAY_RESULT", "OK");
+                request.setAttribute("PAY_RESULT", "OK");
 
                 System.out.println("支付成功");
                 //通知微信.异步确认成功.必写.不然会一直通知后台.八次之后就认为交易失败了.  
@@ -166,5 +176,77 @@ public class UserController extends BaseController {
             System.out.println("通知签名验证失败");
         }
     }
+
+    /**
+     * 自己再写个判断的
+     * @param user
+     * @param request
+     * @param response
+     * @param modelMap
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/hadPayed")
+    public Map<String, Object> hadPayed(UserVO user, HttpServletRequest request, HttpServletResponse response,
+                                      ModelMap modelMap) {
+        //读取参数
+        InputStream inputStream;
+        StringBuffer sb = new StringBuffer();
+        String s;
+        BufferedReader in;
+        //过滤空 设置 TreeMap
+        SortedMap<Object, Object> packageParams = new TreeMap<Object, Object>();
+
+        try {
+            inputStream = request.getInputStream();
+            in = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+            while ((s = in.readLine()) != null) {
+                sb.append(s);
+            }
+            in.close();
+            inputStream.close();
+
+            //解析xml成map
+            Map<String, String> m = new HashMap<String, String>();
+            m = XMLUtil4jdom.doXMLParse(sb.toString());
+
+
+            if(m == null){
+                return error("没成功");
+            }
+            Iterator it = m.keySet().iterator();
+            while (it.hasNext()) {
+                String parameter = (String) it.next();
+                String parameterValue = m.get(parameter);
+
+                String v = "";
+                if (null != parameterValue) {
+                    v = parameterValue.trim();
+                }
+                packageParams.put(parameter, v);
+            }
+        } catch (IOException e) {
+            return error("没成功");
+        } catch (JDOMException e) {
+            return error("没成功");
+        }
+
+        // 微信支付的API密钥
+        String key = PayConfigUtil.API_KEY; //key
+        //微信支付返回来的参数
+        System.out.println(packageParams);
+        //判断签名是否正确
+        if (PayToolUtil.isTenpaySign("UTF-8", packageParams, key)) {
+            //------------------------------
+            //处理业务开始
+            //------------------------------
+            String resXml = "";
+            if ("SUCCESS".equals((String) packageParams.get("result_code"))) {
+                return success("支付成功！");
+            }
+        }
+        return error("没成功");
+    }
+
 
 }

@@ -9,9 +9,11 @@ public class PayConfigUtil {
 	//这地址可能不能回调，要用服务器上的地址就保证可以了。
 	//企业向个人账号付款的URL
 	//微信支付回调接口，就是微信那边收到（改为自己实际的）  现在这个地址并不能直接打开
-	public final static String NOTIFY_URL = "http://jk.powerrich.com.cn/platform/WxpNotify";
+//	public final static String NOTIFY_URL = "http://jk.powerrich.com.cn/platform/WxpNotify";
+	//现在测试用这个自己写的
+	public final static String NOTIFY_URL = "http://demo.s1.natapp.cc/user/weixinNotify";
 
-	public final static String CREATE_IP = "183.240.212.232";//发起支付ip（改为自己实际的）
+	public final static String CREATE_IP = "220.112.16.140";//发起支付ip（改为自己实际的）
 
 
 	//有关url

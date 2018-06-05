@@ -31,7 +31,7 @@ function buy(productId){
         title: false,
         shift: 2,
         shadeClose: true,
-        content:'./user/qrcode.do?productId=' + productId
+        content:'./user/qrcode?productId=' + productId
     });
 	
 	//重复执行某个方法 
@@ -39,7 +39,7 @@ function buy(productId){
 }
 
 function getPayState(productId){
-	var url = './user/hadPay.do?productId=' + productId;
+	var url = './user/hadPayed?productId=' + productId;
 	//轮询是否已经付费
 	$.ajax({
     	type:'post',
@@ -48,6 +48,7 @@ function getPayState(productId){
    		cache:false,
    		async:true,
    		success:function(json){
+    	    debugger;
    			if(json.result == 0){
    				location.href = './result.jsp';
    			}
