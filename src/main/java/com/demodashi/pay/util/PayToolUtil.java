@@ -37,7 +37,7 @@ public class PayToolUtil {
     }  
   
     /**
-     *
+     *  生成签名
      * @param characterEncoding 编码格式
      * @param packageParams 请求参数
      * @param API_KEY
@@ -55,8 +55,8 @@ public class PayToolUtil {
                 sb.append(k + "=" + v + "&");  
             }  
         }  
-        sb.append("key=" + API_KEY);  
-        String sign = MD5Util.MD5Encode(sb.toString(), characterEncoding).toUpperCase();  
+        sb.append("key=" + API_KEY);
+        String sign = MD5Util.MD5Encode(sb.toString(), characterEncoding).toUpperCase();
         return sign;  
     }  
   

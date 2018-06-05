@@ -24,4 +24,12 @@ public class PayConfigUtil {
 	public final static String APP_SECRET = "";
 	public final static String SEND_EED_PACK_URL = "https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers";
 
+
+	public final static String COMPANY_PAY_URL = "";
+	public final static String DEVICE_INFO = "";
+
+
+
+
+
 }

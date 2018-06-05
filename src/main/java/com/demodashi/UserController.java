@@ -42,7 +42,7 @@ public class UserController extends BaseController {
         try {
             String productId = request.getParameter("productId");
             String userId = "user01";
-            String text = userApplication.weixinPay(userId, productId);
+            String text = userApplication.weixinPay(userId, productId);//生成二维码的地址
 
             int width = 300;
             int height = 300;
