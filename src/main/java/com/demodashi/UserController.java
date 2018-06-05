@@ -30,6 +30,8 @@ import java.util.*;
 @RequestMapping("/user")
 public class UserController extends BaseController {
 
+    private static int numJi = 1;
+
     @Inject
     UserService userApplication;
 
@@ -158,6 +160,7 @@ public class UserController extends BaseController {
                 //通知微信.异步确认成功.必写.不然会一直通知后台.八次之后就认为交易失败了.  
                 resXml = "<xml>" + "<return_code><![CDATA[SUCCESS]]></return_code>"
                         + "<return_msg><![CDATA[OK]]></return_msg>" + "</xml> ";
+                numJi = 2;
 
             } else {
                 //支付不成功
@@ -212,7 +215,8 @@ public class UserController extends BaseController {
 
 
             if(m == null){
-                return error("没成功");
+//                return error("没成功");
+                return null;
             }
             Iterator it = m.keySet().iterator();
             while (it.hasNext()) {
@@ -226,9 +230,7 @@ public class UserController extends BaseController {
                 packageParams.put(parameter, v);
             }
         } catch (IOException e) {
-            return error("没成功");
         } catch (JDOMException e) {
-            return error("没成功");
         }
 
         // 微信支付的API密钥
@@ -245,7 +247,13 @@ public class UserController extends BaseController {
                 return success("支付成功！");
             }
         }
-        return error("没成功");
+        return null;
+    }
+
+    @ResponseBody
+    @RequestMapping("/getnum")
+    public int getNumJi(){
+        return numJi;
     }
 
 

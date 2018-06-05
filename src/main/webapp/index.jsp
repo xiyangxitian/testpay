@@ -33,13 +33,14 @@ function buy(productId){
         shadeClose: true,
         content:'./user/qrcode?productId=' + productId
     });
-	
-	//重复执行某个方法 
-	var t1 = window.setInterval("getPayState('" + productId + "')",1500); 
+
+	//重复执行某个方法
+	var t1 = window.setInterval("getPayState('" + productId + "')",1500);
 }
 
 function getPayState(productId){
-	var url = './user/hadPayed?productId=' + productId;
+	//var url = './user/hadPay?productId=' + productId;
+	var url = './user/getnum';
 	//轮询是否已经付费
 	$.ajax({
     	type:'post',
@@ -48,15 +49,18 @@ function getPayState(productId){
    		cache:false,
    		async:true,
    		success:function(json){
-    	    debugger;
-   			if(json.result == 0){
-   				location.href = './result.jsp';
-   			}
-   		},
+                /*if(json.result == 0){
+                    location.href = './result.jsp';
+                }*/
+                console.log("data:" + json);
+            if(json == 2){
+                location.href = './result.jsp';
+            }
+        },
    	    error:function(){
    	    	layer.msg("执行错误！", 8);
    	    }
    	});
 }
-</script> 
+</script>
 </html>
