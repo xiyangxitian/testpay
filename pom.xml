@@ -243,15 +243,15 @@
 			<version>2.6.2</version>
 		</dependency>
 		
-		<!-- GOOGLE zxing -->
-		<dependency>
+		<!-- GOOGLE zxing 使用导入不进来呢 -->
+		<!--<dependency>
 			<groupId>com.google.zxing</groupId>
 			<artifactId>zxing</artifactId>
 			<version>1.0.0</version>
 			<scope>system</scope>
 			<systemPath>${basedir}/lib/core.jar</systemPath>
 		</dependency>
-		
+		-->
 	</dependencies>
 
 	<build>
