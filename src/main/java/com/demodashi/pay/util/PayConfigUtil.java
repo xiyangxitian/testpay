@@ -29,7 +29,6 @@ public class PayConfigUtil {
 	public final static String DEVICE_INFO = "";
 
 
-
-
-
+    public static final String SSLCERT_PATH = "";
+	public static final String SSLCERT_PASSWORD = "";
 }
